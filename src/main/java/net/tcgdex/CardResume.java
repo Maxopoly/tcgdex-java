@@ -24,13 +24,24 @@ public class CardResume implements Comparable<CardResume> {
 		return result;
 	}
 	
+	public JSONObject toJSON() {
+		JSONObject json = new JSONObject();
+		json.put("id", id);
+		json.put("localId", localId);
+		json.put("name", name);
+		if (image != null) {
+			json.put("image", image);
+		}
+		return json;
+	}
+	
 	private final String id;
 	private final String localId;
 	private final String name;
 	private final String image;
 	
 	CardResume(JSONObject json) {
-		this(json.getString("id"), json.getString("localId"), json.getString("name"), json.optString("image"));
+		this(json.getString("id"), json.getString("localId"), json.getString("name"), json.optString("image", null));
 	}
 	
 	CardResume(String id, String localId, String name, String image) {
@@ -41,7 +52,7 @@ public class CardResume implements Comparable<CardResume> {
 	}
 	
 	public String toString() {
-		return String.format("%s (%s): %s,%s", name, id, localId, image);
+		return String.format("%s (%s)", name, id);
 	}
 	
 	/**

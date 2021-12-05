@@ -25,7 +25,7 @@ public class SetInfo extends SetResume {
 	private final boolean legalInExpanded;
 	private final List<CardResume> cards;
 
-	SetInfo(JSONObject json) {
+	public SetInfo(JSONObject json) {
 		super(json);
 		JSONObject count = json.getJSONObject("cardCount");
 		this.holo = count.getInt("holo");
@@ -33,7 +33,7 @@ public class SetInfo extends SetResume {
 		this.reverse = count.getInt("reverse");
 		this.normal = count.getInt("normal");
 		this.series = new SeriesResume(json.getJSONObject("serie"));
-		this.tcgOnlineCode = json.getString("tcgOnline");
+		this.tcgOnlineCode = json.optString("tcgOnline", null);
 		this.releaseDate = LocalDate.parse(json.getString("releaseDate"), timeParser);
 		JSONObject legality = json.getJSONObject("legal");
 		this.legalInExpanded = legality.getBoolean("expanded");
@@ -108,7 +108,7 @@ public class SetInfo extends SetResume {
 	}
 
 	/**
-	 * @return Pokémon TCG Online Set code
+	 * @return Pokémon TCG Online Set code, may be null
 	 */
 	public String getTcgOnlineCode() {
 		return tcgOnlineCode;

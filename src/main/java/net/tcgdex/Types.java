@@ -24,6 +24,14 @@ public enum Types {
 		return result;
 	}
 	
+	static JSONArray toJSON(List<Types> types) {
+		JSONArray array = new JSONArray();
+		for(Types  type : types) {
+			array.put(type.name());
+		}
+		return array;
+	}
+	
 	static Types parse(String raw) {
 		try {
 			return Types.valueOf(raw.toUpperCase().replace(" ", "_"));

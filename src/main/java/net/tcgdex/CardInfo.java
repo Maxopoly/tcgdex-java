@@ -12,6 +12,52 @@ import org.json.JSONObject;
  */
 public class CardInfo extends CardResume {
 
+	public JSONObject toJSON() {
+		JSONObject json = super.toJSON();
+		if (illustrator != null) {
+			json.put("illustrator", illustrator);
+		}
+		json.put("rarity", rarity.name());
+		json.put("category", category.name());
+		JSONObject variants = new JSONObject();
+		variants.put("normal", hasNormalVariant);
+		variants.put("reverse", hasReverseVariant);
+		variants.put("holo", hasHolo);
+		variants.put("firstEdition", hasFirstEditionPic);
+		json.put("variants", variants);
+		json.put("set", set.toJSON());
+		json.put("dexId", dexIDs);
+		if (hp != null) {
+			json.put("hp", hp);
+		}
+		json.put("types", Types.toJSON(types));
+		if (stage != null) {
+			json.put("stage", stage);
+		}
+		if (suffix != null) {
+			json.put("suffix", suffix);
+		}
+		if (!attacks.isEmpty()) {
+			json.put("attacks", Attack.toJSON(attacks));
+		}
+		if (!weakness.isEmpty()) {
+			json.put("weaknesses", Weakness.toJSON(weakness));
+		}
+		if (retreat != null) {
+			json.put("retreat", retreat);
+		}
+		if (regulationMark != null) {
+			json.put("regulationMark", regulationMark);
+		}
+		if (description != null) {
+			json.put("effect", description);
+		}
+		if (!abilities.isEmpty()) {
+			json.put("abilities", Ability.toJSON(abilities));
+		}
+		return json;
+	}
+
 	private final String illustrator;
 	private final Rarities rarity;
 	private final Categories category;
@@ -34,9 +80,9 @@ public class CardInfo extends CardResume {
 	private final Integer retreat;
 	private final String regulationMark;
 
-	CardInfo(JSONObject json) {
+	public CardInfo(JSONObject json) {
 		super(json);
-		this.illustrator = json.optString("illustrator");
+		this.illustrator = json.optString("illustrator", null);
 		this.rarity = Rarities.parse(json.getString("rarity"));
 		this.category = Categories.parse(json.getString("category"));
 		JSONObject variantSection = json.getJSONObject("variants");
@@ -54,15 +100,15 @@ public class CardInfo extends CardResume {
 		}
 		this.hp = json.optInt("hp", -1) > 0 ? json.getInt("hp") : null;
 		this.types = Types.parse(json.optJSONArray("types"));
-		this.stage = json.optString("stage");
-		this.suffix = json.optString("suffix");
+		this.stage = json.optString("stage", null);
+		this.suffix = json.optString("suffix", null);
 		this.attacks = Attack.parse(json.optJSONArray("attacks"));
 		this.weakness = Weakness.parse(json.optJSONArray("weaknesses"));
 		this.retreat = json.optInt("retreat", -1) > 0 ? json.getInt("retreat") : null;
-		this.regulationMark = json.optString("regulationMark");
-		this.level = json.optString("level");
-		this.evolveFrom = json.optString("evolveFrom");
-		this.description = json.optString("effect");
+		this.regulationMark = json.optString("regulationMark", null);
+		this.level = json.optString("level", null);
+		this.evolveFrom = json.optString("evolveFrom", null);
+		this.description = json.optString("effect", null);
 		this.abilities = Ability.parse(json.optJSONArray("abilities"));
 	}
 

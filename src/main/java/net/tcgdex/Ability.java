@@ -1,6 +1,7 @@
 package net.tcgdex;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -13,6 +14,14 @@ import org.json.JSONObject;
  *
  */
 public class Ability {
+	
+	public static JSONArray toJSON(Collection<Ability> abilities) {
+		JSONArray array = new JSONArray();
+		for(Ability attack : abilities) {
+			array.put(attack.toJSON());
+		}
+		return array;
+	}
 
 	static List<Ability> parse(JSONArray array) {
 		if (array == null) {
@@ -23,6 +32,14 @@ public class Ability {
 			result.add(new Ability(array.getJSONObject(i)));
 		}
 		return result;
+	}
+	
+	public JSONObject toJSON() {
+		JSONObject json = new JSONObject();
+		json.put("type", type);
+		json.put("name", name);
+		json.put("effect", effect);
+		return json;
 	}
 
 	private final String type;

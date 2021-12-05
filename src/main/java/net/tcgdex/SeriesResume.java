@@ -7,6 +7,13 @@ import org.json.JSONObject;
  *
  */
 public class SeriesResume {
+	
+	public JSONObject toJSON() {
+		JSONObject json = new JSONObject();
+		json.put("id", id);
+		json.put("name", name);
+		return json;
+	}
 
 	private final String id;
 	private final String name;

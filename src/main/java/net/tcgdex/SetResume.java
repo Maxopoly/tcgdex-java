@@ -13,6 +13,23 @@ import org.json.JSONObject;
  */
 public class SetResume {
 	
+	public JSONObject toJSON() {
+		JSONObject json = new JSONObject();
+		json.put("id", id);
+		json.put("name", name);
+		if (logo != null) {
+			json.put("logo", logo);
+		}
+		if (symbol != null) {
+			json.put("symbol", symbol);
+		}
+		JSONObject cardCount = new JSONObject();
+		cardCount.put("total", totalCardCount);
+		cardCount.put("official", officialCardCount);
+		json.put("cardCount", cardCount);
+		return json;
+	}
+	
 	static List<SetResume> parse(JSONArray array) {
 		if (array == null) {
 			return Collections.emptyList();
